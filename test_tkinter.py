@@ -1,10 +1,4 @@
-# import tkinter as tk
-# window = tk.Tk()
-# window.title("Statistical Frequency Table")
-# window.geometry("700x500")
-# title = tk.Label(window, text="Statistical Frequnecy Table")
-# title.pack()
-# window.mainloop()
+
 
 
 import tkinter as tk
@@ -27,10 +21,10 @@ title = tk.Label(
     font=("Arial", 26, "bold"),
     bg=dark_blue,
     fg=white,
-    pady=20
+    pady=20                             # pady : vertical padding / padx : horizontal padding
 ) 
-# pady : vertical padding / padx : horizontal padding
 title.pack(fill="x") #pack() to arrange and display widets inside the window
+
 
 # Buttons
 buttons_frame = tk.Frame(window, bg="white")
@@ -90,3 +84,8 @@ style.configure(
 )
 
 window.mainloop()
+
+
+
+
+

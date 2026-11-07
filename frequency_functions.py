@@ -1,6 +1,9 @@
 #Parent Class
 class DataSet:
     def __init__(self, data):
+        #check if data is empty
+        if not data:
+            raise ValueError("Data set cannot be empty")
         self.data = data
         #calculating frequencies : fi
     def calculate_fi(self):
@@ -26,9 +29,11 @@ class DataSet:
             cumulative[Xi] = total
         return cumulative  
 
-    #calculating relative frequency :fr =  fi/N ; N = number of individuals or the total number of observation
+    #calculating relative frequency :fr =  fi/N ; N = number of individuals,total frequency or the total number of observation
     def calculate_relative_frequency(self, frequency):
         N = sum(frequency.values())
+        if N == 0:
+            raise ZeroDivisionError("Total frequency cannot be zero")
         relative = {}
         for Xi in frequency:
             relative[Xi] = frequency[Xi] / N
@@ -36,7 +41,11 @@ class DataSet:
        
     #calculating cumulative relative frequency : Fri = Fi / N
     def calculate_cum_rel_frequency(self, cumulative):
+        if not cumulative:
+            raise ValueError("Cumulative frequency is empty")
         N = list(cumulative.values())[-1] # N = the least cumulative frequency Fi
+        if N == 0:
+                    raise ZeroDivisionError("Total frequency cannot be zero")
         Fri = {}
         for Xi in cumulative:
             Fri[Xi] = cumulative[Xi] / N
@@ -67,54 +76,20 @@ class QualitativeData(DataSet):
 class QuantitativeData(DataSet):
 
     def calculate_table(self):
-        fi = self.calculate_fi()
-        fi = dict(sorted(fi.items()))
 
+        #check if all values are numeric
+        for Xi in self.data:
+            if not isinstance(Xi, (int, float)) or isinstance(Xi, bool):
+                raise ValueError("Quantitative data must contain numbers")
+        try:
+
+            fi = self.calculate_fi()
+            fi = dict(sorted(fi.items()))
+        except TypeError:
+            raise ValueError("Invalid quantitative")
         Fi = self.calculate_Fi(fi)
         fr = self.calculate_relative_frequency(fi)
         Fri = self.calculate_cum_rel_frequency(Fi)
         percentage = self.calculate_percentage(fr)
 
         return fi, Fi, fr, Fri, percentage
-
-
-
-
-
-
-"""
-data = ["M", "L", "M", "S", "M", "S", "S", "L"]
-
-fi = calculate_fi(data)
-assert fi == {"M": 3, "L": 2, "S": 3}
-
-Fi = calculate_Fi(fi)
-assert Fi == {"M": 3, "L": 5, "S": 8}
-
-fr = calculate_relative_frequency(fi)
-assert fr == {"M": 3/8, "L": 2/8, "S": 3/8}
-
-Fri = calculate_cum_rel_frequency(Fi)
-assert Fri == {"M": 3/8, "L": 5/8, "S": 1}
-
-percentage = calculate_percentage(fr)
-assert percentage == {"M": 37.5, "L": 25.0, "S": 37.5}
-print("All tests passed!")
-""" 
-
-
-
-
-def display_table(frequency, cumulative, relative, Fri, percentage):
-    print("Xi\tfi\tFi\tfr\tFri\t%")
-    for Xi in frequency:
-        print(Xi, frequency[Xi], cumulative[Xi], relative[Xi], Fri[Xi], percentage[Xi], sep="\t")
-
-display_table(fi, Fi, fr, Fri, percentage)
-
-
-
-
-
-
-
