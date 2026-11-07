@@ -39,11 +39,6 @@ def calculate_Fi(frequency):
 
     
 #percentage  = fr * 100
-def calculate_percentage(relative):
-    percentge = {}
-    for Xi in relative:
-        percentge[Xi] = relative[Xi] * 100
-    return percentge
 
 
 
@@ -68,6 +63,16 @@ def calculate_cum_rel_frequency(cumulative):
     return Fri
 
 
+
+
+def calculate_percentage(relative):
+    percentge = {}
+    for Xi in relative:
+        percentge[Xi] = relative[Xi] * 100
+    return percentge
+
+
+
 data = ["M", "L", "M", "S", "M", "S", "S", "L"]
 
 fi = calculate_fi(data)
@@ -85,3 +90,14 @@ assert Fri == {"M": 3/8, "L": 5/8, "S": 1}
 percentage = calculate_percentage(fr)
 assert percentage == {"M": 37.5, "L": 25.0, "S": 37.5}
 print("All tests passed!")
+
+
+
+
+
+def display_table(frequency, cumulative, relative, Fri, percentage):
+    print("Xi\tfi\tFi\tfr\tFri\t%")
+    for Xi in frequency:
+        print(Xi, frequency[Xi], cumulative[Xi], relative[Xi], Fri[Xi], percentage[Xi], sep="\t")
+
+display_table(fi, Fi, fr, Fri, percentage)
